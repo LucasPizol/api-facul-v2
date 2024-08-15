@@ -5,7 +5,7 @@ class User {
   async new(name, email, password, role) {
     const hashedPassword = await bcryptService.hash(password);
 
-    return await knex.insert({
+    return await knex("users").insert({
       name,
       email,
       password: hashedPassword,
