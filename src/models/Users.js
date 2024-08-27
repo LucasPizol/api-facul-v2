@@ -12,6 +12,22 @@ class User {
       role,
     });
   }
+
+  async findAll() {
+    return await knex("users").select(["id", "name", "email", "role"])
+  }
+
+  async findById(id) {
+    return (await knex("users").select(["id", "name", "email", "role"]).where({ id }))[0]
+  }
+
+  async deleteById(id) {
+    return await knex("users").delete().where({ id })
+  }
+
+  async updateById(id, data) {
+    return await knex("users").update(data).where({ id })
+  }
 }
 
 module.exports = { User: new User() };
