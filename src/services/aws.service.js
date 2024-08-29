@@ -4,17 +4,18 @@ const {
   CheckIfPhoneNumberIsOptedOutCommand,
 } = require("@aws-sdk/client-sns");
 const { formatPhone } = require("../utils/format-phone");
-const { BadRequestException } = require("../routes/responses");
+const { BadRequestException } = require("../main/adapters/responses");
+const env = require("../main/env");
 
 class AWSService {
   snsClient;
 
   constructor() {
     this.snsClient = new SNSClient({
-      region: process.env.AWS_REGION,
+      region: env.awsSdk.region,
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: env.awsSdk.accessKeyId,
+        secretAccessKey: env.awsSdk.secretAccessKey,
       },
     });
   }

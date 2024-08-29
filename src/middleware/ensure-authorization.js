@@ -1,4 +1,4 @@
-const { UnauthorizedException, ForbiddenException } = require("../routes/responses");
+const { UnauthorizedException, ForbiddenException } = require("../main/adapters/responses");
 
 const ensureAuthorization = (req, res, next) => {
   try {

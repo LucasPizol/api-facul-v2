@@ -1,4 +1,5 @@
-const { UnauthorizedException } = require("../routes/responses");
+const { UnauthorizedException } = require("../main/adapters/responses");
+const env = require("../main/env");
 const { jwtService } = require("../services/jwt.service");
 
 const ensureResetPassword = (req, res, next) => {
@@ -12,7 +13,7 @@ const ensureResetPassword = (req, res, next) => {
 
     if (!token) return res.status(401).json(conflict);
 
-    const decodedToken = jwtService.decode(token);
+    const decodedToken = jwtService.decode(token, env.jwt.resetPasswordSecret);
 
     if (!decodedToken) return res.status(401).json(conflict);
 

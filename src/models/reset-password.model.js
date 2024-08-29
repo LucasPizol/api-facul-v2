@@ -1,3 +1,4 @@
+const env = require("../main/env");
 const { awsService } = require("../services/aws.service");
 const { bcryptService } = require("../services/bcrypt.service");
 const { jwtService } = require("../services/jwt.service");
@@ -29,7 +30,8 @@ If you didn't request this, please ignore this message.`,
 
     const token = jwtService.sign(
       { code: hashedCode, phone: formattedPhone, id: user.id },
-      { expiresIn: "15m" }
+      { expiresIn: "15m" },
+      env.jwt.resetPasswordSecret
     );
 
     return { token };
@@ -43,7 +45,7 @@ If you didn't request this, please ignore this message.`,
     if (!user) return false;
     if (user.id !== id) return false;
 
-    const isValidCode = await bcryptService.compare(code, hashedCode);
+    const isValidCode = await bcryptService.compare(String(code), hashedCode);
     if (!isValidCode) return false;
 
     const newHashedPassword = await bcryptService.hash(newPassword);

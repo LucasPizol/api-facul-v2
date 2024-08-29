@@ -1,4 +1,4 @@
-const { UnauthorizedException } = require("../routes/responses");
+const { UnauthorizedException } = require("../main/adapters/responses");
 const { jwtService } = require("../services/jwt.service");
 
 const ensureAuthentication = (req, res, next) => {

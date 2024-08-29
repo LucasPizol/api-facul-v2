@@ -6,7 +6,7 @@ const {
   NoContent,
   BadRequestException,
   UnauthorizedException,
-} = require("../routes/responses");
+} = require("../main/adapters/responses");
 
 class UserController {
   async create(req) {

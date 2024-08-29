@@ -1,13 +1,13 @@
-require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const env = require("../main/env");
 
 class JWTService {
-  sign(payload, options) {
-    return jwt.sign(payload, process.env.JWT_SECRET, options);
+  sign(payload, options, secret = env.jwt.secret) {
+    return jwt.sign(payload, secret, options);
   }
 
-  decode(token) {
-    return jwt.verify(token, process.env.JWT_SECRET);
+  decode(token, secret = env.jwt.secret) {
+    return jwt.verify(token, secret);
   }
 }
 

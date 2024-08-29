@@ -3,7 +3,7 @@ const {
   BadRequestException,
   Success,
   UnauthorizedException,
-} = require("../routes/responses");
+} = require("../main/adapters/responses");
 
 class ResetPasswordController {
   async resetPassword(req) {
