@@ -84,6 +84,11 @@ class UserController {
       return error;
     }
   }
+
+  async current(req) {
+    const user = req.user;
+    return new Success(user);
+  }
 }
 
 module.exports = { UserController: new UserController() };
