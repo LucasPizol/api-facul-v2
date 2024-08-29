@@ -2,10 +2,8 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 class JWTService {
-  sign(payload) {
-    return jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "6h",
-    });
+  sign(payload, options) {
+    return jwt.sign(payload, process.env.JWT_SECRET, options);
   }
 
   decode(token) {

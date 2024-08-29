@@ -11,14 +11,15 @@ const {
 class UserController {
   async create(req) {
     try {
-      const { name, email, password, role } = req.body;
-      const user = await User.new(name, email, password, role);
+      const { name, email, password, role, phone } = req.body;
+      const user = await User.new(name, email, password, role, phone);
 
       return new Created({
         id: user[0],
         name,
         email,
-        role,
+        role: role ?? 0,
+        phone,
       });
     } catch (error) {
       return error;

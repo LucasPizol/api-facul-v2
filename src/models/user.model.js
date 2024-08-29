@@ -1,10 +1,11 @@
 const knex = require("../data/connection");
 const { ConflictException } = require("../routes/responses");
 const { bcryptService } = require("../services/bcrypt.service");
-const { JWTService, jwtService } = require("../services/jwt.service");
+const { jwtService } = require("../services/jwt.service");
+const { formatPhone } = require("../utils/format-phone");
 
 class User {
-  async new(name, email, password, role) {
+  async new(name, email, password, role, phone) {
     const findUser = await this.findByEmail(email);
 
     if (findUser)
@@ -17,6 +18,7 @@ class User {
       email,
       password: hashedPassword,
       role,
+      phone: formatPhone(phone),
     });
   }
 
@@ -52,6 +54,14 @@ class User {
     )[0];
   }
 
+  async findByPhone(phone) {
+    return (
+      await knex("users")
+        .select(["id", "name", "email", "role"])
+        .where({ phone: formatPhone(phone) })
+    )[0];
+  }
+
   async authenticate(email, password) {
     const user = await this.findByEmail(email);
     if (!user) return null;
@@ -62,7 +72,7 @@ class User {
 
     const { password: _, ...userWithoutPassword } = user;
 
-    const token = jwtService.sign(userWithoutPassword);
+    const token = jwtService.sign(userWithoutPassword, { expiresIn: "1d" });
 
     return { ...userWithoutPassword, token };
   }
