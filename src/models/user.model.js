@@ -1,7 +1,7 @@
 const knex = require("../data/connection");
 const { ConflictException } = require("../routes/responses");
-const { bcryptService } = require("../services/Bcrypt");
-const { JWTService, jwtService } = require("../services/JWT");
+const { bcryptService } = require("../services/bcrypt.service");
+const { JWTService, jwtService } = require("../services/jwt.service");
 
 class User {
   async new(name, email, password, role) {
