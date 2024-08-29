@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 
 class JWTService {
   sign(payload) {
-    return jwt.sign(payload, process.env.JWT_SECRET);
+    return jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "6h",
+    });
   }
 
   decode(token) {
