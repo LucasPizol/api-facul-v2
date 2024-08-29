@@ -6,7 +6,7 @@ const {
   NoContent,
   BadRequestException,
   UnauthorizedException,
-} = require("../routes");
+} = require("../routes/responses");
 
 class UserController {
   async create(req) {
@@ -51,7 +51,7 @@ class UserController {
 
   async update(req) {
     try {
-      const { id } = req.params;
+      const { id } = req.user;
 
       await User.updateById(parseInt(id), req.body);
       return new NoContent();

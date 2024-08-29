@@ -1,5 +1,5 @@
 const knex = require("../data/connection");
-const { ConflictException } = require("../routes");
+const { ConflictException } = require("../routes/responses");
 const { bcryptService } = require("../services/Bcrypt");
 const { JWTService, jwtService } = require("../services/JWT");
 

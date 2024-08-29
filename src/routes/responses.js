@@ -32,7 +32,7 @@ class Created extends HttpDefaultResponse {
 
 class NoContent extends HttpDefaultResponse {
   constructor() {
-    super(201, undefined, "no_content");
+    super(204, undefined, "no_content");
   }
 }
 
@@ -45,6 +45,12 @@ class BadRequestException extends HttpDefaultResponse {
 class UnauthorizedException extends HttpDefaultResponse {
   constructor(body) {
     super(401, body, "unauthorized");
+  }
+}
+
+class ForbiddenException extends HttpDefaultResponse {
+  constructor(body) {
+    super(403, body, "forbidden");
   }
 }
 
@@ -75,4 +81,5 @@ module.exports = {
   UnauthorizedException,
   ConflictException,
   ServerErrorException,
+  ForbiddenException,
 };
