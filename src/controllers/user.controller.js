@@ -53,7 +53,14 @@ class UserController {
     try {
       const { id } = req.user;
 
-      await User.updateById(parseInt(id), req.body);
+      const { email, name } = req.body;
+      if (!Object.keys(req.body).length)
+        throw new BadRequestException("No params recieved");
+
+      await User.updateById(parseInt(id), {
+        email,
+        name,
+      });
       return new NoContent();
     } catch (error) {
       return error;
