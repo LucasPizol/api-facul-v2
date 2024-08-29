@@ -1,63 +1,87 @@
 const { User } = require("../models/Users");
+const {
+  Created,
+  Success,
+  NotFoundException,
+  NoContent,
+  BadRequestException,
+  UnauthorizedException,
+} = require("../routes");
 
 class UserController {
-  async create(req, res) {
+  async create(req) {
     try {
       const { name, email, password, role } = req.body;
       const user = await User.new(name, email, password, role);
 
-      return res.status(201).json(user);
+      return new Created({
+        id: user[0],
+        name,
+        email,
+        role,
+      });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return error;
     }
   }
 
-  async findAll(req, res) {
+  async findAll(req) {
     try {
-      const users = await User.findAll()
+      const users = await User.findAll();
 
-      return res.status(200).json(users)
+      return new Success(users);
     } catch (error) {
-      return res.status(500).json({ error: error.message })
+      return error;
     }
   }
 
-  async findById(req, res) {
+  async findById(req) {
     try {
-      const { id } = req.params
+      const { id } = req.params;
 
+      const user = await User.findById(parseInt(id));
 
-      const user = await User.findById(parseInt(id))
+      if (!user) throw new NotFoundException("User not found");
 
-      if (!user) {
-        return res.status(404).json({ error: "User not found" })
-      }
-
-      return res.status(200).json(user)
+      return new Success(user);
     } catch (error) {
-      return res.status(500).json({ error: error.message })
+      return error;
     }
   }
 
-  async update(req, res) {
+  async update(req) {
     try {
-      const { id } = req.params
+      const { id } = req.params;
 
-      await User.updateById(parseInt(id), req.body)
-      return res.status(204).send()
+      await User.updateById(parseInt(id), req.body);
+      return new NoContent();
     } catch (error) {
-      return res.status(500).json({ error: error.message })
+      return error;
     }
   }
 
-  async delete(req, res) {
+  async delete(req) {
     try {
-      const { id } = req.params
+      const { id } = req.params;
 
-      await User.deleteById(parseInt(id))
-      return res.status(204).send()
+      await User.deleteById(parseInt(id));
+      return new NoContent();
     } catch (error) {
-      return res.status(500).json({ error: error.message })
+      return error;
+    }
+  }
+
+  async authenticate(req) {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) throw new BadRequestException("Missing Params");
+
+      const user = await User.authenticate(email, password);
+      if (!user) throw new UnauthorizedException("Unauthorized");
+
+      return new Success(user);
+    } catch (error) {
+      return error;
     }
   }
 }
