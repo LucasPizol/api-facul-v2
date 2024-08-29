@@ -10,7 +10,9 @@ const adapter = (fn) => {
       });
     }
 
-    return res.status(handle.status_code).json(response.handle());
+    const handle = response.handle();
+
+    return res.status(handle.status_code).json(handle);
   };
 };
 
