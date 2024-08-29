@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-module.exports = {
+const env = {
   db: {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -18,3 +18,23 @@ module.exports = {
   },
   port: process.env.PORT,
 };
+
+const verifyEnv = () => {
+  for (const key in env) {
+    if (typeof env[key] === "object") {
+      for (const subKey in env[key]) {
+        if (!env[key][subKey]) {
+          throw new Error(`Environment variable ${subKey} is missing`);
+        }
+      }
+    }
+
+    if (!env[key]) {
+      throw new Error(`Environment variable ${key} is missing`);
+    }
+  }
+};
+
+verifyEnv();
+
+module.exports = env;
